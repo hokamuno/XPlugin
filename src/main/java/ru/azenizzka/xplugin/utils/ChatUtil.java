@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import java.time.Duration;
 
 public class ChatUtil {
-	private static final Component tag = getTag(Component.text("X").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD));
+	private static final Component tag = getTag(Component.text("❌").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD));
 
 	public static Component getTag(Component tagContent) {
 		return Component.text("")
@@ -24,6 +24,13 @@ public class ChatUtil {
 		return getTag(Component.text(tagText).color(tagColor));
 	}
 
+	public static Component getMessage(Component message) {
+		return tag.append(message);
+	}
+
+	public static Component getMessage(String message) {
+		return tag.append(Component.text(message));
+	}
 
 	public static void sendMessage(Player player, String message) {
 		player.sendMessage(tag.append(Component.text(message)));

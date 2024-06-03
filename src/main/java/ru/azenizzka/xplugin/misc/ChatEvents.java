@@ -1,5 +1,6 @@
 package ru.azenizzka.xplugin.misc;
 
+import com.destroystokyo.paper.event.player.PlayerSetSpawnEvent;
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
@@ -9,12 +10,15 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import ru.azenizzka.xplugin.utils.ChatUtil;
 import ru.azenizzka.xplugin.utils.PlayerUtil;
+
+import java.util.Objects;
 
 public class ChatEvents implements Listener {
 	ChatRenderer renderer = new ChatRenderer() {
@@ -24,7 +28,9 @@ public class ChatEvents implements Listener {
 
 			return ChatUtil.getTag(dimensionEmoji)
 					.append(sourceDisplayName)
-					.append(Component.text(" > ").color(dimensionEmoji.color()).decorate(TextDecoration.BOLD))
+					.append(Component.text(" > ")
+							.color(dimensionEmoji.color())
+							.decorate(TextDecoration.BOLD))
 					.append(message);
 		}
 	};
@@ -37,14 +43,22 @@ public class ChatEvents implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		Component message = ChatUtil.getTag(Component.text("+").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
+		Component message = ChatUtil.getTag(Component.text("+")
+				.color(NamedTextColor.DARK_GREEN)
+				.decorate(TextDecoration.BOLD))
+				.append(Component.text(player.getName()));
+
 		event.joinMessage(message);
 	}
 
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
-		Component message = ChatUtil.getTag(Component.text("-").color(NamedTextColor.RED).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
+		Component message = ChatUtil.getTag(Component.text("-")
+				.color(NamedTextColor.RED)
+				.decorate(TextDecoration.BOLD))
+				.append(Component.text(player.getName()));
+
 		event.quitMessage(message);
 	}
 
@@ -53,11 +67,27 @@ public class ChatEvents implements Listener {
 		Player player = event.getPlayer();
 		Component displayName = event.getAdvancement().displayName().color(NamedTextColor.GOLD);
 
-		Component message = ChatUtil.getTag(Component.text("⚡").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
+		Component message = ChatUtil.getTag(Component.text("⚡")
+						.color(NamedTextColor.AQUA)
+						.decorate(TextDecoration.BOLD))
 				.append(Component.text(player.getName() + " выполнил достижение "))
 				.append(displayName);
-		
+
 		event.message(message);
 	}
 
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent event) {
+		Component deathMessage = ChatUtil.getTag(Component.text("☠")
+						.color(NamedTextColor.RED)
+						.decorate(TextDecoration.BOLD))
+				.append(Objects.requireNonNull(event.deathMessage()));
+
+		event.deathMessage(deathMessage);
+	}
+
+	@EventHandler
+	public void onPlayerSetSpawn(PlayerSetSpawnEvent event) {
+		event.setNotification(ChatUtil.getMessage("Точка возрождения изменена"));
+	}
 }
