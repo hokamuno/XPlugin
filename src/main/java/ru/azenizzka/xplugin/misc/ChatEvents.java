@@ -9,6 +9,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
@@ -36,15 +37,27 @@ public class ChatEvents implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		Component joinMessage = ChatUtil.getTag(Component.text("+").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
-		event.joinMessage(joinMessage);
+		Component message = ChatUtil.getTag(Component.text("+").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
+		event.joinMessage(message);
 	}
 
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
-		Component quitMessage = ChatUtil.getTag(Component.text("-").color(NamedTextColor.RED).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
-		event.quitMessage(quitMessage);
+		Component message = ChatUtil.getTag(Component.text("-").color(NamedTextColor.RED).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
+		event.quitMessage(message);
+	}
+
+	@EventHandler
+	public void onGetAdvancement(PlayerAdvancementDoneEvent event) {
+		Player player = event.getPlayer();
+		Component displayName = event.getAdvancement().displayName().color(NamedTextColor.GOLD);
+
+		Component message = ChatUtil.getTag(Component.text("⚡").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
+				.append(Component.text(player.getName() + " выполнил достижение "))
+				.append(displayName);
+		
+		event.message(message);
 	}
 
 }
