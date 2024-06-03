@@ -11,12 +11,16 @@ import java.time.Duration;
 public class ChatUtil {
 	private static final Component tag = getTag("X", NamedTextColor.DARK_GREEN);
 
-	public static Component getTag(String tag, TextColor color) {
+	public static Component getTag(Component tagContent) {
 		return Component.text("")
 				.append(Component.text("[").color(NamedTextColor.DARK_GRAY))
-				.append(Component.text(tag).color(color))
+				.append(tagContent)
 				.append(Component.text("]").color(NamedTextColor.DARK_GRAY))
 				.append(Component.space()).color(NamedTextColor.GRAY);
+	}
+
+	public static Component getTag(String tagText, TextColor tagColor) {
+		return getTag(Component.text(tagText).color(tagColor));
 	}
 
 

@@ -1,0 +1,54 @@
+package ru.azenizzka.xplugin.misc;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import ru.azenizzka.xplugin.utils.ChatUtil;
+import ru.azenizzka.xplugin.utils.PlayerUtil;
+
+import java.text.DecimalFormat;
+
+public class TablistHandler extends BukkitRunnable {
+	@Override
+	public void run() {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			updatePlayerTablist(player);
+		}
+	}
+
+	public void updatePlayerTablist(Player player) {
+		Component playerListName = ChatUtil.getTag(PlayerUtil.getDimensionEmoji(player)).append(Component.text(player.getName()));
+
+		DecimalFormat format = new DecimalFormat("#.##");
+		double tps = Bukkit.getServer().getTPS()[0];
+		tps = Double.parseDouble(format.format(tps));
+
+		Component header = Component.empty()
+				.append(Component.text("XMine")
+						.color(NamedTextColor.DARK_GREEN)
+						.decorate(TextDecoration.BOLD))
+
+				.appendNewline()
+
+				.append(Component.text("Online: ")
+						.color(NamedTextColor.GRAY))
+				.append(Component.text(Bukkit.getServer().getOnlinePlayers().size())
+						.color(NamedTextColor.DARK_GREEN)
+						.decorate(TextDecoration.BOLD));
+
+		Component footer = Component.empty()
+				.append(Component.text("TPS: ")
+						.color(NamedTextColor.GRAY))
+				.append(Component.text(tps)
+						.color(NamedTextColor.DARK_GREEN)
+						.decorate(TextDecoration.BOLD));
+
+
+		player.sendPlayerListFooter(footer);
+		player.sendPlayerListHeader(header);
+		player.playerListName(playerListName);
+	}
+}
