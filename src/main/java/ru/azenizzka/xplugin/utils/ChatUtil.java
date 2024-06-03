@@ -1,0 +1,38 @@
+package ru.azenizzka.xplugin.utils;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.title.Title;
+import org.bukkit.entity.Player;
+
+import java.time.Duration;
+
+public class ChatUtil {
+	private static final Component tag = getTag("X", NamedTextColor.DARK_GREEN);
+
+	public static Component getTag(String tag, TextColor color) {
+		return Component.text("")
+				.append(Component.text("[").color(NamedTextColor.DARK_GRAY))
+				.append(Component.text(tag).color(color))
+				.append(Component.text("]").color(NamedTextColor.DARK_GRAY))
+				.append(Component.space()).color(NamedTextColor.GRAY);
+	}
+
+
+	public static void sendMessage(Player player, String message) {
+		player.sendMessage(tag.append(Component.text(message)));
+	}
+
+	public static void errorMessage(Player player, String message) {
+		player.sendMessage(getTag("⚠", NamedTextColor.GOLD).append(Component.text(message)));
+	}
+
+	public static void sendTitle(Player player, String title, String subtitle, int stay) {
+		Title.Times DEFAULT_TIMES = Title.Times.times(Duration.ofSeconds(0), Duration.ofSeconds(stay), Duration.ofSeconds(1));
+
+		Title titleComponent = Title.title(Component.text(title).color(NamedTextColor.GRAY), Component.text(subtitle).color(NamedTextColor.DARK_GREEN), DEFAULT_TIMES);
+
+		player.showTitle(titleComponent);
+	}
+}
