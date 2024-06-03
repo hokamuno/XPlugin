@@ -4,10 +4,13 @@ import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import ru.azenizzka.xplugin.utils.ChatUtil;
 import ru.azenizzka.xplugin.utils.PlayerUtil;
@@ -29,4 +32,19 @@ public class ChatEvents implements Listener {
 	public void onChatMessage(AsyncChatEvent event) {
 		event.renderer(renderer);
 	}
+
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		Component joinMessage = ChatUtil.getTag(Component.text("+").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
+		event.joinMessage(joinMessage);
+	}
+
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		Player player = event.getPlayer();
+		Component quitMessage = ChatUtil.getTag(Component.text("-").color(NamedTextColor.RED).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
+		event.quitMessage(quitMessage);
+	}
+
 }

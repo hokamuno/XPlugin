@@ -3,13 +3,14 @@ package ru.azenizzka.xplugin.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
 
 public class ChatUtil {
-	private static final Component tag = getTag("X", NamedTextColor.DARK_GREEN);
+	private static final Component tag = getTag(Component.text("X").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD));
 
 	public static Component getTag(Component tagContent) {
 		return Component.text("")
