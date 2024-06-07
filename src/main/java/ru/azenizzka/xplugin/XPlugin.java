@@ -11,6 +11,8 @@ import ru.azenizzka.xplugin.misc.MotdEvents;
 import ru.azenizzka.xplugin.misc.TablistHandler;
 import ru.azenizzka.xplugin.oreExcavation.OreEvents;
 import ru.azenizzka.xplugin.security.LoggerFilterManager;
+import ru.azenizzka.xplugin.sleeping.SleepingEvents;
+import ru.azenizzka.xplugin.sleeping.SleepingManager;
 import ru.azenizzka.xplugin.treeCapitator.TreeCapitatorEvents;
 
 import java.util.Objects;
@@ -18,11 +20,13 @@ import java.util.Objects;
 public final class XPlugin extends JavaPlugin {
 	public static XPlugin instance;
 	public static AuthManager authManager;
+	public static SleepingManager sleepingManager;
 
 	@Override
 	public void onEnable() {
 		instance = this;
 		authManager = new AuthManager();
+		sleepingManager = new SleepingManager();
 
 		setupLogger();
 		runThreads();
@@ -39,8 +43,8 @@ public final class XPlugin extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new OreEvents(), this);
 		Bukkit.getPluginManager().registerEvents(new AuthEvents(), this);
 		Bukkit.getPluginManager().registerEvents(new TreeCapitatorEvents(), this);
-
 		Bukkit.getPluginManager().registerEvents(new ChatEvents(), this);
+		Bukkit.getPluginManager().registerEvents(new SleepingEvents(), this);
 	}
 
 	private void manageCommands() {

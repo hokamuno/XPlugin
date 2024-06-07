@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.azenizzka.xplugin.XPlugin;
-import ru.azenizzka.xplugin.utils.ChatUtil;
+import ru.azenizzka.xplugin.utils.ChatUtils;
 
 public class AuthEvents implements Listener {
 	private static final AuthManager authManager = XPlugin.authManager;
@@ -56,7 +56,7 @@ public class AuthEvents implements Listener {
 			String command = args[0];
 
 			if (!command.equalsIgnoreCase("/reg") && !command.equalsIgnoreCase("/register") && !command.equalsIgnoreCase("/log") && !command.equalsIgnoreCase("/l") && !command.equalsIgnoreCase("/login")) {
-				ChatUtil.errorMessage(player, "Вы не авторизованы!");
+				ChatUtils.errorMessage(player, "Вы не авторизованы!");
 				event.setCancelled(true);
 			}
 		}

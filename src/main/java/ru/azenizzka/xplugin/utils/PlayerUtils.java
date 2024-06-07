@@ -6,10 +6,11 @@ import org.bukkit.entity.Player;
 import ru.azenizzka.xplugin.XPlugin;
 import ru.azenizzka.xplugin.authentication.AuthManager;
 
-public class PlayerUtil {
+public class PlayerUtils {
 	private static final AuthManager authManager = XPlugin.authManager;
 
 	private static final Component AUTH_ICON = Component.text("\uD83D\uDD12").color(NamedTextColor.BLUE);
+	private static final Component SLEEPING_ICON = Component.text("\uD83C\uDF19").color(NamedTextColor.DARK_AQUA);
 	private static final Component OVERWORLD_ICON = Component.text("⛏").color(NamedTextColor.DARK_GREEN);
 	private static final Component NETHER_ICON = Component.text("\uD83D\uDD25").color(NamedTextColor.RED);
 	private static final Component END_ICON = Component.text("☄").color(NamedTextColor.DARK_PURPLE);
@@ -17,6 +18,9 @@ public class PlayerUtil {
 	public static Component getDimensionEmoji(Player player) {
 		if (!authManager.isLogged(player))
 			return AUTH_ICON;
+
+		if (player.isSleeping())
+			return SLEEPING_ICON;
 
 		switch (player.getWorld().getName()) {
 			case "world": {

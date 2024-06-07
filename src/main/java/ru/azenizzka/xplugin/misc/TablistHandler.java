@@ -6,8 +6,8 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import ru.azenizzka.xplugin.utils.ChatUtil;
-import ru.azenizzka.xplugin.utils.PlayerUtil;
+import ru.azenizzka.xplugin.utils.ChatUtils;
+import ru.azenizzka.xplugin.utils.PlayerUtils;
 
 import java.text.DecimalFormat;
 
@@ -20,7 +20,7 @@ public class TablistHandler extends BukkitRunnable {
 	}
 
 	public void updatePlayerTablist(Player player) {
-		Component playerListName = ChatUtil.getTag(PlayerUtil.getDimensionEmoji(player)).append(Component.text(player.getName()));
+		Component playerListName = ChatUtils.getTag(PlayerUtils.getDimensionEmoji(player)).append(Component.text(player.getName()));
 
 		DecimalFormat format = new DecimalFormat("#.##");
 		double tps = Bukkit.getServer().getTPS()[0];

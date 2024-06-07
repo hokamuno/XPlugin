@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.azenizzka.xplugin.XPlugin;
-import ru.azenizzka.xplugin.utils.ChatUtil;
+import ru.azenizzka.xplugin.utils.ChatUtils;
 
 import java.io.File;
 import java.io.FileReader;
@@ -30,9 +30,9 @@ public class AuthManager {
 			public void run() {
 				for (Player player : unLoggedPlayers) {
 					if (!isRegistered(player)) {
-						ChatUtil.sendTitle(player, "Вам необходимо зарегистрироваться!", "/register", 2);
+						ChatUtils.sendTitle(player, "Вам необходимо зарегистрироваться!", "/register", 2);
 					} else {
-						ChatUtil.sendTitle(player, "Вам необходимо авторизоваться!", "/login", 2);
+						ChatUtils.sendTitle(player, "Вам необходимо авторизоваться!", "/login", 2);
 					}
 				}
 			}
@@ -68,7 +68,7 @@ public class AuthManager {
 		try (FileWriter writer = new FileWriter(userFile)) {
 			Gson gson = new Gson();
 			gson.toJson(userData, writer);
-			ChatUtil.sendMessage(player, "Вы успешно зарегистрировались!");
+			ChatUtils.sendMessage(player, "Вы успешно зарегистрировались!");
 		} catch (IOException ignored) {
 			return false;
 		}
@@ -82,7 +82,7 @@ public class AuthManager {
 
 		if (checkPassword(player, password)) {
 			unLoggedPlayers.remove(player);
-			ChatUtil.sendMessage(player, "Вы успешно авторизовались!");
+			ChatUtils.sendMessage(player, "Вы успешно авторизовались!");
 			return true;
 		}
 

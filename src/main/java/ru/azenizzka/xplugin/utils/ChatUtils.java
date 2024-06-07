@@ -5,11 +5,12 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
 
-public class ChatUtil {
+public class ChatUtils {
 	private static final Component tag = getTag(Component.text("❌").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD));
 
 	public static Component getTag(Component tagContent) {
@@ -24,12 +25,13 @@ public class ChatUtil {
 		return getTag(Component.text(tagText).color(tagColor));
 	}
 
-	public static Component getMessage(Component message) {
-		return tag.append(message);
-	}
-
 	public static Component getMessage(String message) {
 		return tag.append(Component.text(message));
+	}
+
+	public static void sendBroadcast(Component message) {
+		for (Player player : Bukkit.getOnlinePlayers())
+			player.sendMessage(message);
 	}
 
 	public static void sendMessage(Player player, String message) {

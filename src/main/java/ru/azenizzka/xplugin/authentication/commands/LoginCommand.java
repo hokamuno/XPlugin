@@ -9,9 +9,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import ru.azenizzka.xplugin.XPlugin;
 import ru.azenizzka.xplugin.authentication.AuthManager;
-import ru.azenizzka.xplugin.utils.ChatUtil;
-
-import java.awt.*;
+import ru.azenizzka.xplugin.utils.ChatUtils;
 
 public class LoginCommand implements CommandExecutor {
 	private static final AuthManager authManager = XPlugin.authManager;
@@ -24,7 +22,7 @@ public class LoginCommand implements CommandExecutor {
 		Player player = (Player) sender;
 
 		if (authManager.isLogged(player)) {
-			ChatUtil.errorMessage((Player) sender, "Вы уже авторизованы");
+			ChatUtils.errorMessage((Player) sender, "Вы уже авторизованы");
 			return true;
 		}
 
