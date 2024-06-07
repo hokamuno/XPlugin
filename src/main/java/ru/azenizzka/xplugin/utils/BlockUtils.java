@@ -19,32 +19,32 @@ public class BlockUtils {
 	public static void breakBlocks(Player player, List<Block> blocks) {
 		synchronized (processingBlocks) {
 			blocks.removeIf(block -> !processingBlocks.add(block));
+		}
 
-			ItemStack tool = player.getInventory().getItemInMainHand();
-			Damageable damageable = (Damageable) tool.getItemMeta();
+		ItemStack tool = player.getInventory().getItemInMainHand();
+		Damageable damageable = (Damageable) tool.getItemMeta();
 
-			int unbreakingCoeff = tool.getEnchantmentLevel(Enchantment.DURABILITY) + 1;
-			int maxDamage = damageable.getDamage() + blocks.size() / unbreakingCoeff;
+		int unbreakingCoeff = tool.getEnchantmentLevel(Enchantment.DURABILITY) + 1;
+		int maxDamage = damageable.getDamage() + blocks.size() / unbreakingCoeff;
 
-			if (tool.getType().getMaxDurability() - maxDamage < 0)
-				return;
+		if (tool.getType().getMaxDurability() - maxDamage < 0)
+			return;
 
-			damageable.setDamage(maxDamage);
-			tool.setItemMeta(damageable);
+		damageable.setDamage(maxDamage);
+		tool.setItemMeta(damageable);
 
-			for (int i = 0; i < blocks.size(); i++) {
-				Block block = blocks.get(i);
+		for (int i = 0; i < blocks.size(); i++) {
+			Block block = blocks.get(i);
 
-				if (!block.isPreferredTool(tool))
-					continue;
+			if (!block.isPreferredTool(tool))
+				continue;
 
-				Bukkit.getScheduler().runTaskLater(XPlugin.instance, () -> {
-					block.breakNaturally(tool, true, true);
-					synchronized (processingBlocks) {
-						processingBlocks.remove(block);
-					}
-				}, 3L * i);
-			}
+			Bukkit.getScheduler().runTaskLater(XPlugin.instance, () -> {
+				block.breakNaturally(tool, true, true);
+				synchronized (processingBlocks) {
+					processingBlocks.remove(block);
+				}
+			}, 3L * i);
 		}
 	}
 }
