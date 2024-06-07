@@ -77,7 +77,9 @@ public class SleepingManager {
 			public void run() {
 				if (!WorldUtil.isNight(world)) {
 					ChatUtils.sendBroadcast(tag.append(Component.text("Ночь прошла, на улице снова безопасно!")));
+					isNightSkipping = false;
 					cancel();
+					return;
 				}
 
 				world.setTime(world.getTime() + 50);
