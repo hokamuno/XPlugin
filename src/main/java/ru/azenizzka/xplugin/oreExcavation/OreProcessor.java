@@ -17,6 +17,7 @@ public class OreProcessor {
 
 			case GOLD_ORE:
 			case DEEPSLATE_GOLD_ORE:
+			case GILDED_BLACKSTONE:
 
 			case LAPIS_ORE:
 			case DEEPSLATE_LAPIS_ORE:

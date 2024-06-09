@@ -17,10 +17,6 @@ public class BlockUtils {
 	private static final Set<Block> processingBlocks = new HashSet<>();
 
 	public static void breakBlocks(Player player, List<Block> blocks) {
-		synchronized (processingBlocks) {
-			blocks.removeIf(block -> !processingBlocks.add(block));
-		}
-
 		ItemStack tool = player.getInventory().getItemInMainHand();
 		Damageable damageable = (Damageable) tool.getItemMeta();
 
@@ -29,6 +25,12 @@ public class BlockUtils {
 
 		if (tool.getType().getMaxDurability() - maxDamage < 0)
 			return;
+
+		synchronized (processingBlocks) {
+			blocks.removeIf(block -> !processingBlocks.add(block));
+		}
+
+		maxDamage = damageable.getDamage() + blocks.size() / unbreakingCoeff;
 
 		damageable.setDamage(maxDamage);
 		tool.setItemMeta(damageable);
