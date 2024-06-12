@@ -26,12 +26,7 @@ public class ChatEvents implements Listener {
 		public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
 			Component dimensionEmoji = PlayerUtils.getDimensionEmoji(source);
 
-			return ChatUtils.getTag(dimensionEmoji)
-					.append(sourceDisplayName)
-					.append(Component.text(" > ")
-							.color(dimensionEmoji.color())
-							.decorate(TextDecoration.BOLD))
-					.append(message);
+			return ChatUtils.getTag(dimensionEmoji).append(sourceDisplayName).append(Component.text(" > ").color(dimensionEmoji.color()).decorate(TextDecoration.BOLD)).append(message);
 		}
 	};
 
@@ -43,10 +38,7 @@ public class ChatEvents implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		Component message = ChatUtils.getTag(Component.text("+")
-				.color(NamedTextColor.DARK_GREEN)
-				.decorate(TextDecoration.BOLD))
-				.append(Component.text(player.getName()));
+		Component message = ChatUtils.getTag(Component.text("+").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
 
 		event.joinMessage(message);
 	}
@@ -54,10 +46,7 @@ public class ChatEvents implements Listener {
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
-		Component message = ChatUtils.getTag(Component.text("-")
-				.color(NamedTextColor.RED)
-				.decorate(TextDecoration.BOLD))
-				.append(Component.text(player.getName()));
+		Component message = ChatUtils.getTag(Component.text("-").color(NamedTextColor.RED).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
 
 		event.quitMessage(message);
 	}
@@ -67,21 +56,14 @@ public class ChatEvents implements Listener {
 		Player player = event.getPlayer();
 		Component displayName = event.getAdvancement().displayName().color(NamedTextColor.GOLD);
 
-		Component message = ChatUtils.getTag(Component.text("⚡")
-						.color(NamedTextColor.AQUA)
-						.decorate(TextDecoration.BOLD))
-				.append(Component.text(player.getName() + " выполнил достижение "))
-				.append(displayName);
+		Component message = ChatUtils.getTag(Component.text("⚡").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)).append(Component.text(player.getName() + " выполнил достижение ")).append(displayName);
 
 		event.message(message);
 	}
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
-		Component deathMessage = ChatUtils.getTag(Component.text("☠")
-						.color(NamedTextColor.RED)
-						.decorate(TextDecoration.BOLD))
-				.append(Objects.requireNonNull(event.deathMessage()));
+		Component deathMessage = ChatUtils.getTag(Component.text("☠").color(NamedTextColor.RED).decorate(TextDecoration.BOLD)).append(Objects.requireNonNull(event.deathMessage()));
 
 		event.deathMessage(deathMessage);
 	}

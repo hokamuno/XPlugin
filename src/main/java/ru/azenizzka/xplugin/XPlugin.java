@@ -7,6 +7,7 @@ import ru.azenizzka.xplugin.authentication.AuthManager;
 import ru.azenizzka.xplugin.authentication.commands.LoginCommand;
 import ru.azenizzka.xplugin.authentication.commands.RegisterCommand;
 import ru.azenizzka.xplugin.commands.CoordsCommand;
+import ru.azenizzka.xplugin.commands.PrivateMessageCommand;
 import ru.azenizzka.xplugin.misc.ChatEvents;
 import ru.azenizzka.xplugin.misc.MotdEvents;
 import ru.azenizzka.xplugin.misc.TablistHandler;
@@ -52,6 +53,7 @@ public final class XPlugin extends JavaPlugin {
 		Objects.requireNonNull(getCommand("register")).setExecutor(new RegisterCommand());
 		Objects.requireNonNull(getCommand("login")).setExecutor(new LoginCommand());
 		Objects.requireNonNull(getCommand("coords")).setExecutor(new CoordsCommand());
+		Objects.requireNonNull(getCommand("pm")).setExecutor(new PrivateMessageCommand());
 	}
 
 	private void setupLogger() {

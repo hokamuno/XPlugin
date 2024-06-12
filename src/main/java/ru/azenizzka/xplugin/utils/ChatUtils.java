@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
+import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -56,5 +57,13 @@ public class ChatUtils {
 		Title titleComponent = Title.title(Component.text(title).color(NamedTextColor.GRAY), Component.text(subtitle).color(NamedTextColor.DARK_GREEN), DEFAULT_TIMES);
 
 		player.showTitle(titleComponent);
+	}
+
+	public static void sendActionBar(Player player, String message) {
+		player.sendActionBar(Component.text(message).color(NamedTextColor.GRAY));
+	}
+
+	public static void sendActionBar(Player player, Component message) {
+		player.sendActionBar(message);
 	}
 }
