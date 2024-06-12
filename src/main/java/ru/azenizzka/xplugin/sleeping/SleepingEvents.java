@@ -1,6 +1,8 @@
 package ru.azenizzka.xplugin.sleeping;
 
+import io.papermc.paper.event.player.PlayerDeepSleepEvent;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
@@ -40,7 +42,7 @@ public class SleepingEvents implements Listener {
 			return;
 
 		if (playersAntiSpam.containsKey(event.getPlayer())) {
-			ChatUtils.errorMessage(event.getPlayer(), "Подождите " + playersAntiSpam.get(event.getPlayer()) + " секунд");
+			ChatUtils.sendErrorMessage(event.getPlayer(), "Подождите " + playersAntiSpam.get(event.getPlayer()) + " секунд");
 			event.setCancelled(true);
 			return;
 		}

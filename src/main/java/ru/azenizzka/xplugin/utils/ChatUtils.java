@@ -25,20 +25,28 @@ public class ChatUtils {
 		return getTag(Component.text(tagText).color(tagColor));
 	}
 
-	public static Component getMessage(String message) {
-		return tag.append(Component.text(message));
-	}
-
 	public static void sendBroadcast(Component message) {
 		for (Player player : Bukkit.getOnlinePlayers())
 			player.sendMessage(message);
+	}
+
+	public static Component getComponentMessage(String message) {
+		return tag.append(Component.text(message));
 	}
 
 	public static void sendMessage(Player player, String message) {
 		player.sendMessage(tag.append(Component.text(message)));
 	}
 
-	public static void errorMessage(Player player, String message) {
+	public static void sendMessage(Player player, Component tag, String message) {
+		player.sendMessage(tag.append(Component.text(message)));
+	}
+
+	public static void sendMessage(Player player, Component tag, Component message) {
+		player.sendMessage(tag.append(message));
+	}
+
+	public static void sendErrorMessage(Player player, String message) {
 		player.sendMessage(getTag("⚠", NamedTextColor.GOLD).append(Component.text(message)));
 	}
 

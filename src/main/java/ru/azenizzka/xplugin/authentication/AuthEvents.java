@@ -56,7 +56,7 @@ public class AuthEvents implements Listener {
 			String command = args[0];
 
 			if (!command.equalsIgnoreCase("/reg") && !command.equalsIgnoreCase("/register") && !command.equalsIgnoreCase("/log") && !command.equalsIgnoreCase("/l") && !command.equalsIgnoreCase("/login")) {
-				ChatUtils.errorMessage(player, "Вы не авторизованы!");
+				ChatUtils.sendErrorMessage(player, "Вы не авторизованы!");
 				event.setCancelled(true);
 			}
 		}
@@ -89,8 +89,7 @@ public class AuthEvents implements Listener {
 	@EventHandler
 	public void onGetDamage(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
-			if (!authManager.isLogged(player))
+			if (!authManager.isLogged((Player) event.getEntity()))
 				event.setCancelled(true);
 		}
 	}
@@ -111,5 +110,11 @@ public class AuthEvents implements Listener {
 			if (!authManager.isLogged(player))
 				event.setCancelled(true);
 		}
+	}
+
+	@EventHandler
+	public void onBite(PlayerInteractAtEntityEvent event) {
+		if (!authManager.isLogged(event.getPlayer()))
+			event.setCancelled(true);
 	}
 }

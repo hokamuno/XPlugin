@@ -33,11 +33,11 @@ public class SleepingManager {
 	}
 
 	public void addSleepingPlayer(Player player) {
-		sleepingPLayers.add(player);
-
 		if (isNightSkipping)
 			return;
 
+		sleepingPLayers.add(player);
+		player.resetCooldown();
 		Component message = tag.append(Component.text(player.getName() + " лег спать."));
 		ChatUtils.sendBroadcast(message);
 
@@ -54,7 +54,7 @@ public class SleepingManager {
 	}
 
 	private int getNeededSleepingPlayers() {
-		double playersOnline = Bukkit.getOnlinePlayers().size();
+		int playersOnline = world.getPlayerCount();
 
 		return (int) Math.ceil(playersOnline * ((double) NEEDED_PERCENT / 100));
 	}
@@ -78,6 +78,8 @@ public class SleepingManager {
 				if (!WorldUtil.isNight(world)) {
 					ChatUtils.sendBroadcast(tag.append(Component.text("Ночь прошла, на улице снова безопасно!")));
 					isNightSkipping = false;
+					world.setWeatherDuration(0);
+
 					cancel();
 					return;
 				}

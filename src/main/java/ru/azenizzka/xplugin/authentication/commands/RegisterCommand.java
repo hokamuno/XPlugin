@@ -21,7 +21,7 @@ public class RegisterCommand implements CommandExecutor {
 		Player player = (Player) sender;
 
 		if (authManager.isLogged(player)) {
-			ChatUtils.errorMessage((Player) sender, "Вы уже авторизованы");
+			ChatUtils.sendErrorMessage((Player) sender, "Вы уже авторизованы");
 			return true;
 		}
 

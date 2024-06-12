@@ -88,6 +88,6 @@ public class ChatEvents implements Listener {
 
 	@EventHandler
 	public void onPlayerSetSpawn(PlayerSetSpawnEvent event) {
-		event.setNotification(ChatUtils.getMessage("Точка возрождения изменена"));
+		event.setNotification(ChatUtils.getComponentMessage("Точка возрождения изменена"));
 	}
 }

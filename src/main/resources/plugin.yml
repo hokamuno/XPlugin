@@ -12,3 +12,6 @@ commands:
     aliases:
       - log
       - l
+  coords:
+    aliases:
+      - coo

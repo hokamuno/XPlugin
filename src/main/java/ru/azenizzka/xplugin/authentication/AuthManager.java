@@ -1,6 +1,7 @@
 package ru.azenizzka.xplugin.authentication;
 
 import com.google.gson.Gson;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.azenizzka.xplugin.XPlugin;
@@ -30,9 +31,9 @@ public class AuthManager {
 			public void run() {
 				for (Player player : unLoggedPlayers) {
 					if (!isRegistered(player)) {
-						ChatUtils.sendTitle(player, "Вам необходимо зарегистрироваться!", "/register", 2);
+						ChatUtils.sendTitle(player, "Вам необходимо зарегистрироваться!", "/register <пароль>", 2);
 					} else {
-						ChatUtils.sendTitle(player, "Вам необходимо авторизоваться!", "/login", 2);
+						ChatUtils.sendTitle(player, "Вам необходимо авторизоваться!", "/login <пароль>", 2);
 					}
 				}
 			}
@@ -123,7 +124,13 @@ public class AuthManager {
 		return new File(userDir.getPath() + SEPARATOR + "data.json");
 	}
 
-	private String getPlayerIp(Player player) {
-		return Objects.requireNonNull(player.getAddress()).getHostName();
+	public String getPlayerIp(Player player) {
+		try {
+			return Objects.requireNonNull(player.getAddress()).getAddress().getHostAddress();
+		} catch (Exception e) {
+			player.kick(Component.text("Произошла ошибка при получении IP-адреса. Пожалуйста, попробуйте позже и обратитесь к администрации"));
+			return null;
+		}
 	}
+
 }

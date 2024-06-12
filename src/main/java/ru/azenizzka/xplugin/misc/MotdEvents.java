@@ -21,6 +21,7 @@ public class MotdEvents implements Listener {
 	@EventHandler
 	public void onServerListPing(ServerListPingEvent event) {
 		File iconPath = new File(XPlugin.instance.getDataFolder() + "/logo.png");
+
 		event.motd(motd);
 
 		if (!iconPath.exists())
