@@ -40,9 +40,10 @@ public class PrivateMessageCommand implements CommandExecutor {
 				.append(Component.text(" > ").color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD))
 				.append(Component.text(message.toString()).color(NamedTextColor.GRAY));
 
-		ChatUtils.sendActionBar(player, "Вы отправили свое сообщение " + receiver.getName());
 
 		ChatUtils.sendMessage(receiver, tag, receiverMessage);
+		ChatUtils.sendMessage(player, tag, receiverMessage);
+
 		return true;
 	}
 }

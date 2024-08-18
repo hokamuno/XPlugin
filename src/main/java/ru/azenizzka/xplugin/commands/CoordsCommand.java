@@ -31,7 +31,11 @@ public class CoordsCommand implements CommandExecutor {
 		}
 
 
-		Component firstMessage = Component.text("Игрок ").color(NamedTextColor.GRAY).append(Component.text(player.getName()).color(NamedTextColor.DARK_GRAY)).append(Component.text(" поделился с вами своей позицией!").color(NamedTextColor.GRAY));
+		Component firstMessage = Component.text("Игрок ")
+				.color(NamedTextColor.GRAY)
+				.append(Component.text(player.getName()).color(NamedTextColor.DARK_GRAY))
+				.append(Component.text(" поделился с вами своей позицией!").color(NamedTextColor.GRAY));
+
 		Component secondMessage = Component.text("Он находится в ").color(NamedTextColor.GRAY);
 
 		switch (player.getWorld().getName()) {
@@ -50,14 +54,31 @@ public class CoordsCommand implements CommandExecutor {
 		}
 
 		secondMessage = secondMessage.append(Component.text("на координатах").color(NamedTextColor.GRAY));
-		Component thirdMessage = Component.text("").append(Component.text("X: ")).color(NamedTextColor.GRAY).append(Component.text((int) player.getLocation().x()).color(NamedTextColor.DARK_GREEN)).append(Component.text(" | ").color(NamedTextColor.DARK_GRAY)).append(Component.text("Y: ")).color(NamedTextColor.GRAY).append(Component.text((int) player.getLocation().y()).color(NamedTextColor.DARK_GREEN)).append(Component.text(" | ").color(NamedTextColor.DARK_GRAY)).append(Component.text("Z: ")).color(NamedTextColor.GRAY).append(Component.text((int) player.getLocation().z()).color(NamedTextColor.DARK_GREEN));
+		Component thirdMessage = Component.text("")
+				.append(Component.text("X: "))
+				.color(NamedTextColor.GRAY)
+				.append(Component.text((int) player.getLocation().x()).color(NamedTextColor.DARK_GREEN))
+				.append(Component.text(" | ").color(NamedTextColor.DARK_GRAY))
+				.append(Component.text("Y: "))
+				.color(NamedTextColor.GRAY)
+				.append(Component.text((int) player.getLocation().y()).color(NamedTextColor.DARK_GREEN))
+				.append(Component.text(" | ").color(NamedTextColor.DARK_GRAY))
+				.append(Component.text("Z: "))
+				.color(NamedTextColor.GRAY)
+				.append(Component.text((int) player.getLocation().z()).color(NamedTextColor.DARK_GREEN));
 
 		if (player.getWorld() == receiver.getWorld()) {
 			int distance = LocationUtils.getDistance(player.getLocation(), receiver.getLocation());
-			thirdMessage = thirdMessage.append(Component.text(" | ").color(NamedTextColor.DARK_GRAY)).append(Component.text("Расстояние: ").color(NamedTextColor.GRAY)).append(Component.text(distance).color(NamedTextColor.DARK_GREEN));
+
+			thirdMessage = thirdMessage.append(Component.text(" | ").color(NamedTextColor.DARK_GRAY))
+					.append(Component.text("Расстояние: ").color(NamedTextColor.GRAY))
+					.append(Component.text(distance).color(NamedTextColor.DARK_GREEN));
 		}
 
-		ChatUtils.sendMessage(player, tag, Component.text("Вы поделились своей позицией с ").color(NamedTextColor.GRAY).append(Component.text(receiver.getName()).color(NamedTextColor.DARK_GRAY)));
+		ChatUtils.sendMessage(player, tag, Component.text("Вы поделились своей позицией с ")
+				.color(NamedTextColor.GRAY)
+				.append(Component.text(receiver.getName()).color(NamedTextColor.DARK_GRAY)));
+
 		ChatUtils.sendMessage(receiver, tag, firstMessage);
 		ChatUtils.sendMessage(receiver, tag, secondMessage);
 		ChatUtils.sendMessage(receiver, tag, thirdMessage);

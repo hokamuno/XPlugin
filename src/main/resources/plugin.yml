@@ -16,3 +16,5 @@ commands:
     aliases:
       - coo
   pm:
+    aliases:
+      - m
