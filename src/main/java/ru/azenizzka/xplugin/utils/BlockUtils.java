@@ -3,10 +3,12 @@ package ru.azenizzka.xplugin.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.CreativeCategory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -62,6 +64,10 @@ public class BlockUtils {
 	public static void increaseBrokenBlocks(ItemStack tool, Long value) {
 		ItemMeta meta = tool.getItemMeta();
 
+		tool.getType().getCreativeCategory().compareTo(CreativeCategory.TOOLS);
+
+		if (meta == null)
+			return;
 
 		NamespacedKey key = new NamespacedKey(XPlugin.instance, NUMBER_OF_BROKEN_BLOCKS_KEY);
 
