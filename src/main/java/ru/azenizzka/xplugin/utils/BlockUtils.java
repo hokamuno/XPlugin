@@ -57,7 +57,7 @@ public class BlockUtils {
 				synchronized (processingBlocks) {
 					processingBlocks.remove(block);
 				}
-			}, (18L - efficiency * 3L) * i);
+			}, 3L * i);
 		}
 	}
 
