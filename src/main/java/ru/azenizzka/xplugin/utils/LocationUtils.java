@@ -1,7 +1,6 @@
 package ru.azenizzka.xplugin.utils;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 public class LocationUtils {
 	public static int getDistance(Location loc1, Location loc2) {

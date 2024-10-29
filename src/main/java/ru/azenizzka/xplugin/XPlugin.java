@@ -1,7 +1,6 @@
 package ru.azenizzka.xplugin;
 
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.azenizzka.xplugin.authentication.AuthEvents;
 import ru.azenizzka.xplugin.authentication.AuthManager;
