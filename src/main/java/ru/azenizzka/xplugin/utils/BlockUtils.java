@@ -3,12 +3,10 @@ package ru.azenizzka.xplugin.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.CreativeCategory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -25,34 +23,30 @@ public class BlockUtils {
 		ItemStack tool = player.getInventory().getItemInMainHand();
 		ItemMeta meta = tool.getItemMeta();
 
-		int efficiency = tool.getEnchantmentLevel(Enchantment.DIG_SPEED);
-		int unbreakingCoeff = tool.getEnchantmentLevel(Enchantment.DURABILITY) + 1;
-		int maxDamage = ((Damageable) meta).getDamage() + blocks.size() / unbreakingCoeff;
-
-		if (tool.getType().getMaxDurability() - maxDamage < 0)
-			return;
-
 		synchronized (processingBlocks) {
 			blocks.removeIf(block -> !processingBlocks.add(block));
 		}
 
-		maxDamage = ((Damageable) meta).getDamage() + blocks.size() / unbreakingCoeff;
+		try {
+			((Damageable) meta).setDamage(computeDamage(tool, blocks.size()));
+		} catch (Exception e) {
+			return;
+		}
 
-		((Damageable) meta).setDamage(maxDamage);
 		tool.setItemMeta(meta);
 
 		for (int i = 0; i < blocks.size(); i++) {
 			Block block = blocks.get(i);
 
-			if (!block.isPreferredTool(tool))
+			if (!block.isPreferredTool(tool) || block.isEmpty())
 				continue;
 
 			Bukkit.getScheduler().runTaskLater(XPlugin.instance, () -> {
 				if (block.isEmpty())
 					return;
 
-				block.breakNaturally(tool, true, true);
 				increaseBrokenBlocks(tool, 1L);
+				block.breakNaturally(tool, true, true);
 
 				synchronized (processingBlocks) {
 					processingBlocks.remove(block);
@@ -61,10 +55,23 @@ public class BlockUtils {
 		}
 	}
 
-	public static void increaseBrokenBlocks(ItemStack tool, Long value) {
+	// throws an exception if tool will be breaked.
+	private static int computeDamage(ItemStack tool, int countOfBlocks) throws Exception {
 		ItemMeta meta = tool.getItemMeta();
 
-		tool.getType().getCreativeCategory().compareTo(CreativeCategory.TOOLS);
+		int unbreakingCoeff = tool.getEnchantmentLevel(Enchantment.DURABILITY) + 1;
+		int maxDamage = ((Damageable) meta).getDamage() + countOfBlocks / unbreakingCoeff;
+
+		if (tool.getType().getMaxDurability() - maxDamage < 0)
+			throw new Exception();
+
+		maxDamage = ((Damageable) meta).getDamage() + countOfBlocks / unbreakingCoeff;
+
+		return maxDamage;
+	}
+
+	public static void increaseBrokenBlocks(ItemStack tool, Long value) {
+		ItemMeta meta = tool.getItemMeta();
 
 		if (meta == null)
 			return;

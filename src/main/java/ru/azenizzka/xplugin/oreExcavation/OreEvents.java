@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import ru.azenizzka.xplugin.utils.BlockUtils;
+import ru.azenizzka.xplugin.utils.ItemUtils;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ public class OreEvents implements Listener {
 	public void onOreExcavated(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		Block block = event.getBlock();
+
+		if (!ItemUtils.isPickaxeItem(player.getInventory().getItemInMainHand()))
+			return;
 
 		if (OreProcessor.isOre(block)) {
 			List<Block> ores = OreProcessor.getNearbyOres(block);
