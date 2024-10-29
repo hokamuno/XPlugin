@@ -8,10 +8,7 @@ import ru.azenizzka.xplugin.authentication.commands.LoginCommand;
 import ru.azenizzka.xplugin.authentication.commands.RegisterCommand;
 import ru.azenizzka.xplugin.commands.CoordsCommand;
 import ru.azenizzka.xplugin.commands.PrivateMessageCommand;
-import ru.azenizzka.xplugin.misc.BlockEvents;
-import ru.azenizzka.xplugin.misc.ChatEvents;
-import ru.azenizzka.xplugin.misc.MotdEvents;
-import ru.azenizzka.xplugin.misc.TablistHandler;
+import ru.azenizzka.xplugin.misc.*;
 import ru.azenizzka.xplugin.oreExcavation.OreEvents;
 import ru.azenizzka.xplugin.security.LoggerFilterManager;
 import ru.azenizzka.xplugin.sleeping.SleepingEvents;
@@ -49,6 +46,7 @@ public final class XPlugin extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new ChatEvents(), this);
 		Bukkit.getPluginManager().registerEvents(new SleepingEvents(), this);
 		Bukkit.getPluginManager().registerEvents(new BlockEvents(), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerEvents(), this);
 
 	}
 
