@@ -14,6 +14,8 @@ import ru.azenizzka.xplugin.security.LoggerFilterManager;
 import ru.azenizzka.xplugin.sleeping.SleepingEvents;
 import ru.azenizzka.xplugin.sleeping.SleepingManager;
 import ru.azenizzka.xplugin.treeCapitator.TreeCapitatorEvents;
+import ru.azenizzka.xplugin.vanish.VanishCommand;
+import ru.azenizzka.xplugin.vanish.VanishEvents;
 
 import java.util.Objects;
 
@@ -47,6 +49,7 @@ public final class XPlugin extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new SleepingEvents(), this);
 		Bukkit.getPluginManager().registerEvents(new BlockEvents(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerEvents(), this);
+		Bukkit.getPluginManager().registerEvents(new VanishEvents(), this);
 
 	}
 
@@ -55,6 +58,7 @@ public final class XPlugin extends JavaPlugin {
 		Objects.requireNonNull(getCommand("login")).setExecutor(new LoginCommand());
 		Objects.requireNonNull(getCommand("coords")).setExecutor(new CoordsCommand());
 		Objects.requireNonNull(getCommand("pm")).setExecutor(new PrivateMessageCommand());
+		Objects.requireNonNull(getCommand("vanish")).setExecutor(new VanishCommand());
 	}
 
 	private void setupLogger() {

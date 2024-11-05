@@ -38,6 +38,10 @@ public class ChatUtils {
 		player.sendMessage(tag.append(Component.text(message)));
 	}
 
+	public static void sendMessage(Player player, Component message) {
+		player.sendMessage(message);
+	}
+
 	public static void sendMessage(Player player, Component tag, String message) {
 		player.sendMessage(tag.append(Component.text(message)));
 	}
@@ -56,6 +60,14 @@ public class ChatUtils {
 		Title titleComponent = Title.title(Component.text(title).color(NamedTextColor.GRAY), Component.text(subtitle).color(NamedTextColor.DARK_GREEN), DEFAULT_TIMES);
 
 		player.showTitle(titleComponent);
+	}
+
+	public static Component getJoinMessage(Player player) {
+		return getTag(Component.text("+").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
+	}
+
+	public static Component getQuitMessage(Player player) {
+		return getTag(Component.text("-").color(NamedTextColor.RED).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
 	}
 
 	public static void sendActionBar(Player player, String message) {

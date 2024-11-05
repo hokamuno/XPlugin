@@ -30,6 +30,7 @@ public class BlockUtils {
 		try {
 			((Damageable) meta).setDamage(computeDamage(tool, blocks.size()));
 		} catch (Exception e) {
+			processingBlocks.removeIf(blocks::contains);
 			return;
 		}
 

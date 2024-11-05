@@ -38,7 +38,7 @@ public class ChatEvents implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		Component message = ChatUtils.getTag(Component.text("+").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
+		Component message = ChatUtils.getJoinMessage(player);
 
 		event.joinMessage(message);
 	}
@@ -46,7 +46,7 @@ public class ChatEvents implements Listener {
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
-		Component message = ChatUtils.getTag(Component.text("-").color(NamedTextColor.RED).decorate(TextDecoration.BOLD)).append(Component.text(player.getName()));
+		Component message = ChatUtils.getQuitMessage(player);
 
 		event.quitMessage(message);
 	}
