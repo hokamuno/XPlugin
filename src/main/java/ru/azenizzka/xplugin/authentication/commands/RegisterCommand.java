@@ -11,28 +11,31 @@ import ru.azenizzka.xplugin.authentication.AuthManager;
 import ru.azenizzka.xplugin.utils.ChatUtils;
 
 public class RegisterCommand implements CommandExecutor {
-	private static final AuthManager authManager = XPlugin.authManager;
+  private static final AuthManager authManager = XPlugin.authManager;
 
-	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-		if (!(sender instanceof Player))
-			return true;
+  @Override
+  public boolean onCommand(
+      @NotNull CommandSender sender,
+      @NotNull Command command,
+      @NotNull String label,
+      @NotNull String[] args) {
+    if (!(sender instanceof Player)) return true;
 
-		Player player = (Player) sender;
+    Player player = (Player) sender;
 
-		if (authManager.isLogged(player)) {
-			ChatUtils.sendErrorMessage((Player) sender, "Вы уже авторизованы");
-			return true;
-		}
+    if (authManager.isLogged(player)) {
+      ChatUtils.sendErrorMessage((Player) sender, "Вы уже авторизованы");
+      return true;
+    }
 
-		if (args.length == 1) {
-			String password = args[0];
+    if (args.length == 1) {
+      String password = args[0];
 
-			if (authManager.authUser(player, password)) {
-				player.kick(Component.text("Не удалось авторизоваться. Обратитесь к администрации"));
-			}
-		}
+      if (authManager.authUser(player, password)) {
+        player.kick(Component.text("Не удалось авторизоваться. Обратитесь к администрации"));
+      }
+    }
 
-		return true;
-	}
+    return true;
+  }
 }

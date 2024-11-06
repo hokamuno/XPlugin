@@ -1,12 +1,6 @@
 package ru.azenizzka.xplugin.authentication;
 
 import com.google.gson.Gson;
-import net.kyori.adventure.text.Component;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import ru.azenizzka.xplugin.XPlugin;
-import ru.azenizzka.xplugin.utils.ChatUtils;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,123 +8,129 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import ru.azenizzka.xplugin.XPlugin;
+import ru.azenizzka.xplugin.utils.ChatUtils;
 
 public class AuthManager {
-	private static final String USER_DATA_DIR = "users";
-	private static final String SEPARATOR = File.separator;
-	private static final Set<Player> unLoggedPlayers = new HashSet<>();
+  private static final String USER_DATA_DIR = "users";
+  private static final String SEPARATOR = File.separator;
+  private static final Set<Player> unLoggedPlayers = new HashSet<>();
 
-	public AuthManager() {
-		File userDataDir = new File(XPlugin.instance.getDataFolder(), USER_DATA_DIR);
-		if (!userDataDir.exists())
-			//noinspection ResultOfMethodCallIgnored
-			userDataDir.mkdirs();
+  public AuthManager() {
+    File userDataDir = new File(XPlugin.instance.getDataFolder(), USER_DATA_DIR);
+    if (!userDataDir.exists())
+      //noinspection ResultOfMethodCallIgnored
+      userDataDir.mkdirs();
 
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				for (Player player : unLoggedPlayers) {
-					if (!isRegistered(player)) {
-						ChatUtils.sendTitle(player, "Вам необходимо зарегистрироваться!", "/register <пароль>", 2);
-					} else {
-						ChatUtils.sendTitle(player, "Вам необходимо авторизоваться!", "/login <пароль>", 2);
-					}
-				}
-			}
-		}.runTaskTimerAsynchronously(XPlugin.instance, 0L, 20L);
-	}
+    new BukkitRunnable() {
+      @Override
+      public void run() {
+        for (Player player : unLoggedPlayers) {
+          if (!isRegistered(player)) {
+            ChatUtils.sendTitle(
+                player, "Вам необходимо зарегистрироваться!", "/register <пароль>", 2);
+          } else {
+            ChatUtils.sendTitle(player, "Вам необходимо авторизоваться!", "/login <пароль>", 2);
+          }
+        }
+      }
+    }.runTaskTimerAsynchronously(XPlugin.instance, 0L, 20L);
+  }
 
-	public void addUnLoggedPlayer(Player player) {
-		unLoggedPlayers.add(player);
-	}
+  public void addUnLoggedPlayer(Player player) {
+    unLoggedPlayers.add(player);
+  }
 
-	public boolean isLogged(Player player) {
-		return !unLoggedPlayers.contains(player);
-	}
+  public boolean isLogged(Player player) {
+    return !unLoggedPlayers.contains(player);
+  }
 
-	public boolean authUser(Player player, String password) {
-		if (isRegistered(player)) {
-			return !loginUser(player, password);
-		} else {
-			return !registerUser(player, password);
-		}
-	}
+  public boolean authUser(Player player, String password) {
+    if (isRegistered(player)) {
+      return !loginUser(player, password);
+    } else {
+      return !registerUser(player, password);
+    }
+  }
 
-	private boolean isRegistered(Player player) {
-		File userFile = getPlayerFile(player);
-		return userFile.exists();
-	}
+  private boolean isRegistered(Player player) {
+    File userFile = getPlayerFile(player);
+    return userFile.exists();
+  }
 
-	private boolean registerUser(Player player, String password) {
-		File userFile = getPlayerFile(player);
-		UserData userData = new UserData();
-		userData.setPassword(password);
+  private boolean registerUser(Player player, String password) {
+    File userFile = getPlayerFile(player);
+    UserData userData = new UserData();
+    userData.setPassword(password);
 
-		try (FileWriter writer = new FileWriter(userFile)) {
-			Gson gson = new Gson();
-			gson.toJson(userData, writer);
-			ChatUtils.sendMessage(player, "Вы успешно зарегистрировались!");
-		} catch (IOException ignored) {
-			return false;
-		}
+    try (FileWriter writer = new FileWriter(userFile)) {
+      Gson gson = new Gson();
+      gson.toJson(userData, writer);
+      ChatUtils.sendMessage(player, "Вы успешно зарегистрировались!");
+    } catch (IOException ignored) {
+      return false;
+    }
 
-		return true;
-	}
+    return true;
+  }
 
-	private boolean loginUser(Player player, String password) {
-		if (isLogged(player))
-			return true;
+  private boolean loginUser(Player player, String password) {
+    if (isLogged(player)) return true;
 
-		if (checkPassword(player, password)) {
-			unLoggedPlayers.remove(player);
-			ChatUtils.sendMessage(player, "Вы успешно авторизовались!");
-			return true;
-		}
+    if (checkPassword(player, password)) {
+      unLoggedPlayers.remove(player);
+      ChatUtils.sendMessage(player, "Вы успешно авторизовались!");
+      return true;
+    }
 
-		return false;
-	}
+    return false;
+  }
 
-	private boolean checkPassword(Player player, String password) {
-		File userFile = getPlayerFile(player);
+  private boolean checkPassword(Player player, String password) {
+    File userFile = getPlayerFile(player);
 
-		if (!userFile.exists())
-			return false;
+    if (!userFile.exists()) return false;
 
-		try (FileReader reader = new FileReader(userFile)) {
-			Gson gson = new Gson();
-			UserData userData = gson.fromJson(reader, UserData.class);
-			return userData.checkPassword(password);
-		} catch (IOException ignored) {
-		}
+    try (FileReader reader = new FileReader(userFile)) {
+      Gson gson = new Gson();
+      UserData userData = gson.fromJson(reader, UserData.class);
+      return userData.checkPassword(password);
+    } catch (IOException ignored) {
+    }
 
-		return false;
-	}
+    return false;
+  }
 
-	private File getPlayerFile(Player player) {
-		File userDir = new File(XPlugin.instance.getDataFolder(), USER_DATA_DIR + SEPARATOR + player.getName());
+  private File getPlayerFile(Player player) {
+    File userDir =
+        new File(XPlugin.instance.getDataFolder(), USER_DATA_DIR + SEPARATOR + player.getName());
 
-		if (!userDir.exists())
-			//noinspection ResultOfMethodCallIgnored
-			userDir.mkdirs();
+    if (!userDir.exists())
+      //noinspection ResultOfMethodCallIgnored
+      userDir.mkdirs();
 
-		File userIp = new File(userDir.getPath() + SEPARATOR + getPlayerIp(player));
-		try {
-			//noinspection ResultOfMethodCallIgnored
-			userIp.createNewFile();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+    File userIp = new File(userDir.getPath() + SEPARATOR + getPlayerIp(player));
+    try {
+      //noinspection ResultOfMethodCallIgnored
+      userIp.createNewFile();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
 
-		return new File(userDir.getPath() + SEPARATOR + "data.json");
-	}
+    return new File(userDir.getPath() + SEPARATOR + "data.json");
+  }
 
-	public String getPlayerIp(Player player) {
-		try {
-			return Objects.requireNonNull(player.getAddress()).getAddress().getHostAddress();
-		} catch (Exception e) {
-			player.kick(Component.text("Произошла ошибка при получении IP-адреса. Пожалуйста, попробуйте позже и обратитесь к администрации"));
-			return null;
-		}
-	}
-
+  public String getPlayerIp(Player player) {
+    try {
+      return Objects.requireNonNull(player.getAddress()).getAddress().getHostAddress();
+    } catch (Exception e) {
+      player.kick(
+          Component.text(
+              "Произошла ошибка при получении IP-адреса. Пожалуйста, попробуйте позже и обратитесь к администрации"));
+      return null;
+    }
+  }
 }

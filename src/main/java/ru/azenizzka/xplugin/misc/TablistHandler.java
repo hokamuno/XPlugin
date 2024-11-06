@@ -1,5 +1,6 @@
 package ru.azenizzka.xplugin.misc;
 
+import java.text.DecimalFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -10,47 +11,46 @@ import ru.azenizzka.xplugin.utils.ChatUtils;
 import ru.azenizzka.xplugin.utils.PlayerUtils;
 import ru.azenizzka.xplugin.vanish.VanishManager;
 
-import java.text.DecimalFormat;
-
 public class TablistHandler extends BukkitRunnable {
-	@Override
-	public void run() {
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			updatePlayerTablist(player);
-		}
-	}
+  @Override
+  public void run() {
+    for (Player player : Bukkit.getOnlinePlayers()) {
+      updatePlayerTablist(player);
+    }
+  }
 
-	public void updatePlayerTablist(Player player) {
-		Component playerListName = ChatUtils.getTag(PlayerUtils.getDimensionEmoji(player)).append(Component.text(player.getName()));
+  public void updatePlayerTablist(Player player) {
+    Component playerListName =
+        ChatUtils.getTag(PlayerUtils.getDimensionEmoji(player))
+            .append(Component.text(player.getName()));
 
-		DecimalFormat format = new DecimalFormat("#.##");
-		double tps = Bukkit.getServer().getTPS()[0];
-		tps = Double.parseDouble(format.format(tps));
-		int onlinePlayers = Bukkit.getServer().getOnlinePlayers().size() - VanishManager.getCountOfVanishedPlayers();
+    DecimalFormat format = new DecimalFormat("#.##");
+    double tps = Bukkit.getServer().getTPS()[0];
+    tps = Double.parseDouble(format.format(tps));
+    int onlinePlayers =
+        Bukkit.getServer().getOnlinePlayers().size() - VanishManager.getCountOfVanishedPlayers();
 
-		Component header = Component.empty()
-				.append(Component.text("XMine")
-						.color(NamedTextColor.DARK_GREEN)
-						.decorate(TextDecoration.BOLD))
+    Component header =
+        Component.empty()
+            .append(
+                Component.text("XMine")
+                    .color(NamedTextColor.DARK_GREEN)
+                    .decorate(TextDecoration.BOLD))
+            .appendNewline()
+            .append(Component.text("Online: ").color(NamedTextColor.GRAY))
+            .append(
+                Component.text(onlinePlayers)
+                    .color(NamedTextColor.DARK_GREEN)
+                    .decorate(TextDecoration.BOLD));
 
-				.appendNewline()
+    Component footer =
+        Component.empty()
+            .append(Component.text("TPS: ").color(NamedTextColor.GRAY))
+            .append(
+                Component.text(tps).color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD));
 
-				.append(Component.text("Online: ")
-						.color(NamedTextColor.GRAY))
-				.append(Component.text(onlinePlayers)
-						.color(NamedTextColor.DARK_GREEN)
-						.decorate(TextDecoration.BOLD));
-
-		Component footer = Component.empty()
-				.append(Component.text("TPS: ")
-						.color(NamedTextColor.GRAY))
-				.append(Component.text(tps)
-						.color(NamedTextColor.DARK_GREEN)
-						.decorate(TextDecoration.BOLD));
-
-
-		player.sendPlayerListFooter(footer);
-		player.sendPlayerListHeader(header);
-		player.playerListName(playerListName);
-	}
+    player.sendPlayerListFooter(footer);
+    player.sendPlayerListHeader(header);
+    player.playerListName(playerListName);
+  }
 }

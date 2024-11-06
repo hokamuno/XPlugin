@@ -3,6 +3,9 @@ plugins {
 	id("com.diffplug.spotless") version "6.25.0"
 }
 
+group = "ru.azenizzka"
+version = "0.0.1-SNAPSHOT"
+
 repositories {
     maven {
         name = "papermc"
@@ -22,6 +25,13 @@ java {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
     implementation("org.apache.logging.log4j:log4j-core:2.23.1")
+}
+
+spotless {
+    java {
+        googleJavaFormat()
+        removeUnusedImports()
+    }
 }
 
 tasks.named("jar") {

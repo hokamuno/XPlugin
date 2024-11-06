@@ -3,6 +3,7 @@ package ru.azenizzka.xplugin.misc;
 import com.destroystokyo.paper.event.player.PlayerSetSpawnEvent;
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
+import java.util.Objects;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -18,58 +19,72 @@ import org.jetbrains.annotations.NotNull;
 import ru.azenizzka.xplugin.utils.ChatUtils;
 import ru.azenizzka.xplugin.utils.PlayerUtils;
 
-import java.util.Objects;
-
 public class ChatEvents implements Listener {
-	ChatRenderer renderer = new ChatRenderer() {
-		@Override
-		public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
-			Component dimensionEmoji = PlayerUtils.getDimensionEmoji(source);
+  ChatRenderer renderer =
+      new ChatRenderer() {
+        @Override
+        public @NotNull Component render(
+            @NotNull Player source,
+            @NotNull Component sourceDisplayName,
+            @NotNull Component message,
+            @NotNull Audience viewer) {
+          Component dimensionEmoji = PlayerUtils.getDimensionEmoji(source);
 
-			return ChatUtils.getTag(dimensionEmoji).append(sourceDisplayName).append(Component.text(" > ").color(dimensionEmoji.color()).decorate(TextDecoration.BOLD)).append(message);
-		}
-	};
+          return ChatUtils.getTag(dimensionEmoji)
+              .append(sourceDisplayName)
+              .append(
+                  Component.text(" > ").color(dimensionEmoji.color()).decorate(TextDecoration.BOLD))
+              .append(message);
+        }
+      };
 
-	@EventHandler
-	public void onChatMessage(AsyncChatEvent event) {
-		event.renderer(renderer);
-	}
+  @EventHandler
+  public void onChatMessage(AsyncChatEvent event) {
+    event.renderer(renderer);
+  }
 
-	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
-		Component message = ChatUtils.getJoinMessage(player);
+  @EventHandler
+  public void onPlayerJoin(PlayerJoinEvent event) {
+    Player player = event.getPlayer();
+    Component message = ChatUtils.getJoinMessage(player);
 
-		event.joinMessage(message);
-	}
+    event.joinMessage(message);
+  }
 
-	@EventHandler
-	public void onPlayerQuit(PlayerQuitEvent event) {
-		Player player = event.getPlayer();
-		Component message = ChatUtils.getQuitMessage(player);
+  @EventHandler
+  public void onPlayerQuit(PlayerQuitEvent event) {
+    Player player = event.getPlayer();
+    Component message = ChatUtils.getQuitMessage(player);
 
-		event.quitMessage(message);
-	}
+    event.quitMessage(message);
+  }
 
-	@EventHandler
-	public void onGetAdvancement(PlayerAdvancementDoneEvent event) {
-		Player player = event.getPlayer();
-		Component displayName = event.getAdvancement().displayName().color(NamedTextColor.GOLD);
+  @EventHandler
+  public void onGetAdvancement(PlayerAdvancementDoneEvent event) {
+    Player player = event.getPlayer();
+    Component displayName = event.getAdvancement().displayName().color(NamedTextColor.GOLD);
 
-		Component message = ChatUtils.getTag(Component.text("⚡").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)).append(Component.text(player.getName() + " выполнил достижение ")).append(displayName);
+    Component message =
+        ChatUtils.getTag(
+                Component.text("⚡").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
+            .append(Component.text(player.getName() + " выполнил достижение "))
+            .append(displayName);
 
-		event.message(message);
-	}
+    event.message(message);
+  }
 
-	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent event) {
-		Component deathMessage = ChatUtils.getTag(Component.text("☠").color(NamedTextColor.RED).decorate(TextDecoration.BOLD)).append(Objects.requireNonNull(event.deathMessage()));
+  @EventHandler
+  public void onPlayerDeath(PlayerDeathEvent event) {
+    Component deathMessage =
+        ChatUtils.getTag(
+                Component.text("☠").color(NamedTextColor.RED).decorate(TextDecoration.BOLD))
+            .append(Objects.requireNonNull(event.deathMessage()));
 
-		event.deathMessage(deathMessage);
-	}
+    event.deathMessage(deathMessage);
+  }
 
-	@EventHandler
-	public void onPlayerSetSpawn(PlayerSetSpawnEvent event) {
-		event.setNotification(ChatUtils.getComponentMessage("Точка возрождения изменена"));
-	}
+  @EventHandler
+  public void onPlayerSetSpawn(PlayerSetSpawnEvent event) {
+    event.setNotification(ChatUtils.getComponentMessage("Точка возрождения изменена"));
+  }
 }

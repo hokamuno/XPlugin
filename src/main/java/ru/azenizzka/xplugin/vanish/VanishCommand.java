@@ -7,19 +7,22 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class VanishCommand implements CommandExecutor {
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player player = (Player) sender;
+  @Override
+  public boolean onCommand(
+      @NotNull CommandSender sender,
+      @NotNull Command command,
+      @NotNull String label,
+      @NotNull String[] args) {
+    Player player = (Player) sender;
 
-        if (!player.isOp())
-            return false;
+    if (!player.isOp()) return false;
 
-        if (VanishManager.isPlayerVanished(player)) {
-            VanishManager.remVanishPlayer(player);
-        } else {
-            VanishManager.addVanishPlayer(player);
-        }
-
-        return true;
+    if (VanishManager.isPlayerVanished(player)) {
+      VanishManager.remVanishPlayer(player);
+    } else {
+      VanishManager.addVanishPlayer(player);
     }
+
+    return true;
+  }
 }

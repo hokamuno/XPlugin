@@ -12,38 +12,44 @@ import org.jetbrains.annotations.NotNull;
 import ru.azenizzka.xplugin.utils.ChatUtils;
 
 public class PrivateMessageCommand implements CommandExecutor {
-	private static final Component tag = ChatUtils.getTag("✉", NamedTextColor.GOLD);
-	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-		Player player = (Player) sender;
+  private static final Component tag = ChatUtils.getTag("✉", NamedTextColor.GOLD);
 
-		if (args.length < 2) {
-			ChatUtils.sendErrorMessage(player, "Укажите ник игрока и сообщение");
-			return true;
-		}
+  @Override
+  public boolean onCommand(
+      @NotNull CommandSender sender,
+      @NotNull Command command,
+      @NotNull String label,
+      @NotNull String[] args) {
+    Player player = (Player) sender;
 
-		Player receiver = Bukkit.getPlayer(args[0]);
+    if (args.length < 2) {
+      ChatUtils.sendErrorMessage(player, "Укажите ник игрока и сообщение");
+      return true;
+    }
 
-		if (receiver == null) {
-			ChatUtils.sendErrorMessage(player, "Такой игрок не был найден");
-			return true;
-		}
+    Player receiver = Bukkit.getPlayer(args[0]);
 
-		StringBuilder message = new StringBuilder();
+    if (receiver == null) {
+      ChatUtils.sendErrorMessage(player, "Такой игрок не был найден");
+      return true;
+    }
 
-		for (int i = 1; i < args.length; i++) {
-			message.append(args[i]);
-			message.append(" ");
-		}
+    StringBuilder message = new StringBuilder();
 
-		Component receiverMessage = Component.text(player.getName()).color(NamedTextColor.GRAY)
-				.append(Component.text(" > ").color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD))
-				.append(Component.text(message.toString()).color(NamedTextColor.GRAY));
+    for (int i = 1; i < args.length; i++) {
+      message.append(args[i]);
+      message.append(" ");
+    }
 
+    Component receiverMessage =
+        Component.text(player.getName())
+            .color(NamedTextColor.GRAY)
+            .append(Component.text(" > ").color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD))
+            .append(Component.text(message.toString()).color(NamedTextColor.GRAY));
 
-		ChatUtils.sendMessage(receiver, tag, receiverMessage);
-		ChatUtils.sendMessage(player, tag, receiverMessage);
+    ChatUtils.sendMessage(receiver, tag, receiverMessage);
+    ChatUtils.sendMessage(player, tag, receiverMessage);
 
-		return true;
-	}
+    return true;
+  }
 }
