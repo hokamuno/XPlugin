@@ -62,4 +62,8 @@ public class VanishManager {
 
         vanishPlayers.remove(player);
     }
+
+    public static int getCountOfVanishedPlayers() {
+        return vanishPlayers.size();
+    }
 }

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.azenizzka.xplugin.utils.ChatUtils;
 import ru.azenizzka.xplugin.utils.PlayerUtils;
+import ru.azenizzka.xplugin.vanish.VanishManager;
 
 import java.text.DecimalFormat;
 
@@ -25,6 +26,7 @@ public class TablistHandler extends BukkitRunnable {
 		DecimalFormat format = new DecimalFormat("#.##");
 		double tps = Bukkit.getServer().getTPS()[0];
 		tps = Double.parseDouble(format.format(tps));
+		int onlinePlayers = Bukkit.getServer().getOnlinePlayers().size() - VanishManager.getCountOfVanishedPlayers();
 
 		Component header = Component.empty()
 				.append(Component.text("XMine")
@@ -35,7 +37,7 @@ public class TablistHandler extends BukkitRunnable {
 
 				.append(Component.text("Online: ")
 						.color(NamedTextColor.GRAY))
-				.append(Component.text(Bukkit.getServer().getOnlinePlayers().size())
+				.append(Component.text(onlinePlayers)
 						.color(NamedTextColor.DARK_GREEN)
 						.decorate(TextDecoration.BOLD));
 
