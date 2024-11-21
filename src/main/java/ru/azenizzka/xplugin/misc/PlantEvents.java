@@ -17,6 +17,7 @@ public class PlantEvents implements Listener {
     Block block = event.getClickedBlock();
 
     if (block == null) return;
+    if (block.getRelative(0, -1, 0).getType() != Material.FARMLAND) return;
 
     Collection<ItemStack> drop = block.getDrops(event.getItem());
 
