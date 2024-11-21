@@ -19,7 +19,6 @@ public class AuthEvents implements Listener {
 
   @EventHandler
   public void onJoin(PlayerJoinEvent event) {
-    System.out.println("player join epta!!");
     Player player = event.getPlayer();
     authManager.addUnLoggedPlayer(player);
 
