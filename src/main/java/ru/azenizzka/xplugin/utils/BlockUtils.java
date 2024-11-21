@@ -44,14 +44,14 @@ public class BlockUtils {
           .runTaskLater(
               XPlugin.instance,
               () -> {
+                synchronized (processingBlocks) {
+                  processingBlocks.remove(block);
+                }
+
                 if (block.isEmpty()) return;
 
                 increaseBrokenBlocks(tool, 1L);
                 block.breakNaturally(tool, true, true);
-
-                synchronized (processingBlocks) {
-                  processingBlocks.remove(block);
-                }
               },
               3L * i);
     }
