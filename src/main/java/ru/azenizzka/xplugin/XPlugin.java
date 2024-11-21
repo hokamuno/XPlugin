@@ -49,6 +49,7 @@ public final class XPlugin extends JavaPlugin {
     Bukkit.getPluginManager().registerEvents(new BlockEvents(), this);
     Bukkit.getPluginManager().registerEvents(new PlayerEvents(), this);
     Bukkit.getPluginManager().registerEvents(new VanishEvents(), this);
+    Bukkit.getPluginManager().registerEvents(new PlantEvents(), this);
   }
 
   private void manageCommands() {
