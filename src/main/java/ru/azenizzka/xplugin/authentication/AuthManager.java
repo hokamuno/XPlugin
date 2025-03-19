@@ -45,6 +45,19 @@ public class AuthManager {
   }
 
   public boolean isLogged(Player player) {
+    if (unLoggedPlayers.contains(player)) {
+      try {
+        UserData userData = getUserDataFromFile(player);
+
+        if (userData.getLastLoggedIp().equals(getPlayerIp(player))) {
+          unLoggedPlayers.remove(player);
+          ChatUtils.sendMessage(player, "Вы были авторизованы по IP адресу");
+        }
+
+      } catch (Exception ignored) {
+      }
+    }
+
     return !unLoggedPlayers.contains(player);
   }
 
@@ -63,14 +76,14 @@ public class AuthManager {
 
   private boolean registerUser(Player player, String password) {
     File userFile = getPlayerFile(player);
-    UserData userData = new UserData();
-    userData.setPassword(password);
 
     try (FileWriter writer = new FileWriter(userFile)) {
+      UserData userData = generateUserData(player, password);
+
       Gson gson = new Gson();
       gson.toJson(userData, writer);
       ChatUtils.sendMessage(player, "Вы успешно зарегистрировались!");
-    } catch (IOException ignored) {
+    } catch (Exception ignored) {
       return false;
     }
 
@@ -90,18 +103,31 @@ public class AuthManager {
   }
 
   private boolean checkPassword(Player player, String password) {
-    File userFile = getPlayerFile(player);
-
-    if (!userFile.exists()) return false;
-
-    try (FileReader reader = new FileReader(userFile)) {
-      Gson gson = new Gson();
-      UserData userData = gson.fromJson(reader, UserData.class);
-      return userData.checkPassword(password);
-    } catch (IOException ignored) {
+    try {
+      return getUserDataFromFile(player).checkPassword(password);
+    } catch (Exception ignored) {
     }
 
     return false;
+  }
+
+  private UserData getUserDataFromFile(Player player) throws Exception {
+    File userFile = getPlayerFile(player);
+
+    if (!userFile.exists()) throw new Exception();
+
+    try (FileReader reader = new FileReader(userFile)) {
+      Gson gson = new Gson();
+      return gson.fromJson(reader, UserData.class);
+    }
+  }
+
+  private UserData generateUserData(Player player, String password) throws Exception {
+    UserData userData = new UserData();
+    userData.setPassword(password);
+    userData.setLastLoggedIp(getPlayerIp(player));
+
+    return userData;
   }
 
   private File getPlayerFile(Player player) {

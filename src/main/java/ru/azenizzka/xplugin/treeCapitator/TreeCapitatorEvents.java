@@ -18,9 +18,15 @@ public class TreeCapitatorEvents implements Listener {
 
     if (!ItemUtils.isAxeItem(player.getInventory().getItemInMainHand())) return;
 
-    if (TreeCapitatorProcessor.isLog(block) && player.isSneaking()) {
-      List<Block> blocks = TreeCapitatorProcessor.getTreeBlocks(block);
-      BlockUtils.breakBlocks(player, blocks);
+    if (!TreeCapitatorProcessor.isLog(block.getType())) return;
+
+    List<Block> blocks;
+    try {
+      blocks = TreeCapitatorProcessor.getTreeBlocks(block);
+    } catch (Exception e) {
+      return;
     }
+
+    BlockUtils.breakBlocks(player, blocks);
   }
 }

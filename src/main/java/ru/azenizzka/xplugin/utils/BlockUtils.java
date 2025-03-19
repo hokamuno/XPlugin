@@ -49,7 +49,7 @@ public class BlockUtils {
 
       if (!block.isPreferredTool(tool) || block.isEmpty()) continue;
 
-      long delay = getBreakDurationInTicks(block.getBreakSpeed(player)) * i;
+      float delay = getBreakDurationInTicks(block.getBreakSpeed(player)) * 0.75f * i;
 
       if (delay < 0) {
         delay = 0;
@@ -69,7 +69,7 @@ public class BlockUtils {
                   increaseBrokenBlocks(tool, 1L);
                 }
               },
-              delay);
+              (long) delay);
     }
   }
 
