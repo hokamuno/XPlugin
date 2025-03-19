@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -15,13 +13,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import ru.azenizzka.xplugin.XPlugin;
 
 public class BlockUtils {
   private static final Set<Block> processingBlocks = new HashSet<>();
   private static final String NUMBER_OF_BROKEN_BLOCKS_KEY = "BROKEN_BLOCKS_COUNT";
 
+  private static long getBreakDurationInTicks(float breakSpeed) {
+    return (long) (1 / breakSpeed);
+  }
+
   public static void breakBlocks(Player player, List<Block> blocks) {
+    if (blocks.isEmpty()) return;
+
     ItemStack tool = player.getInventory().getItemInMainHand();
     ItemMeta meta = tool.getItemMeta();
 
@@ -43,6 +49,12 @@ public class BlockUtils {
 
       if (!block.isPreferredTool(tool) || block.isEmpty()) continue;
 
+      long delay = getBreakDurationInTicks(block.getBreakSpeed(player)) * i;
+
+      if (delay < 0) {
+        delay = 0;
+      }
+
       Bukkit.getScheduler()
           .runTaskLater(
               XPlugin.instance,
@@ -53,10 +65,11 @@ public class BlockUtils {
 
                 if (block.isEmpty()) return;
 
-                increaseBrokenBlocks(tool, 1L);
-                block.breakNaturally(tool, true, true);
+                if (block.breakNaturally(tool, true, true)) {
+                  increaseBrokenBlocks(tool, 1L);
+                }
               },
-              3L * i);
+              delay);
     }
   }
 
