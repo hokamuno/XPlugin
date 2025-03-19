@@ -93,13 +93,23 @@ public class AuthManager {
   private boolean loginUser(Player player, String password) {
     if (isLogged(player)) return true;
 
-    if (checkPassword(player, password)) {
-      unLoggedPlayers.remove(player);
+    if (!checkPassword(player, password)) return false;
+
+    unLoggedPlayers.remove(player);
+    File userFile = getPlayerFile(player);
+
+    try (FileWriter writer = new FileWriter(userFile)) {
+      UserData userData = generateUserData(player, password);
+
       ChatUtils.sendMessage(player, "Вы успешно авторизовались!");
-      return true;
+
+      Gson gson = new Gson();
+      gson.toJson(userData, writer);
+    } catch (Exception ignored) {
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   private boolean checkPassword(Player player, String password) {
