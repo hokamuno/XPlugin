@@ -1,46 +1,18 @@
 package ru.azenizzka.xplugin.oreExcavation;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 public class OreProcessor {
+
   public static boolean isOre(Block block) {
     Material material = block.getBlockData().getMaterial();
 
-    switch (material) {
-      case COAL_ORE:
-      case DEEPSLATE_COAL_ORE:
-
-      case IRON_ORE:
-      case DEEPSLATE_IRON_ORE:
-
-      case GOLD_ORE:
-      case DEEPSLATE_GOLD_ORE:
-      case GILDED_BLACKSTONE:
-
-      case LAPIS_ORE:
-      case DEEPSLATE_LAPIS_ORE:
-
-      case REDSTONE_ORE:
-      case DEEPSLATE_REDSTONE_ORE:
-
-      case EMERALD_ORE:
-      case DEEPSLATE_EMERALD_ORE:
-
-      case DIAMOND_ORE:
-      case DEEPSLATE_DIAMOND_ORE:
-
-      case COPPER_ORE:
-      case DEEPSLATE_COPPER_ORE:
-
-      case NETHER_QUARTZ_ORE:
-      case NETHER_GOLD_ORE:
-      case ANCIENT_DEBRIS:
-        return true;
-    }
-
-    return false;
+    return material.toString().endsWith("_ORE");
   }
 
   public static List<Block> getNearbyOres(Block block) {
