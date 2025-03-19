@@ -1,6 +1,9 @@
 package ru.azenizzka.xplugin.utils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -57,11 +60,10 @@ public class BlockUtils {
     }
   }
 
-  // throws an exception if tool will be breaked.
   private static int computeDamage(ItemStack tool, int countOfBlocks) throws Exception {
     ItemMeta meta = tool.getItemMeta();
 
-    int unbreakingCoeff = tool.getEnchantmentLevel(Enchantment.DURABILITY) + 1;
+    int unbreakingCoeff = tool.getEnchantmentLevel(Enchantment.UNBREAKING) + 1;
     int maxDamage = ((Damageable) meta).getDamage() + countOfBlocks / unbreakingCoeff;
 
     if (tool.getType().getMaxDurability() - maxDamage < 0) throw new Exception();
