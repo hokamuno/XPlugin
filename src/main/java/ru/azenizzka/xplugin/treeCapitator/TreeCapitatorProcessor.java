@@ -25,15 +25,12 @@ public class TreeCapitatorProcessor {
 
   public static boolean isLog(Material material) {
     String name = material.name();
-    return (name.endsWith("_LOG")
-            || name.equals("CRIMSON_STEM")
-            || name.equalsIgnoreCase("WARPED_STEM"))
-        && !name.startsWith("STRIPPED");
+    return (name.endsWith("_LOG") || name.endsWith("_STEM")) && !name.startsWith("STRIPPED");
   }
 
   public static boolean isLeave(Material material) {
     String name = material.name();
-    return name.endsWith("_LEAVES");
+    return name.endsWith("_LEAVES") || material.equals(Material.WARPED_WART_BLOCK);
   }
 
   public static List<Block> getTreeBlocks(Block block) throws Exception {
