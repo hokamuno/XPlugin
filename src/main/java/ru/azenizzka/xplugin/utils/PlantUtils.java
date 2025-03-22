@@ -5,7 +5,7 @@ import org.bukkit.Material;
 public class PlantUtils {
   public static boolean isPlant(Material plant) {
     switch (plant) {
-      case WHEAT_SEEDS:
+      case WHEAT:
       case CARROTS:
       case NETHER_WART:
       case POTATOES:
