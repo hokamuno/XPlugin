@@ -14,6 +14,9 @@ public class TreeCapitatorEvents implements Listener {
   @EventHandler
   public void onTreeBroken(BlockBreakEvent event) {
     Player player = event.getPlayer();
+
+    if (player.isSneaking()) return;
+
     Block block = event.getBlock();
 
     if (!ItemUtils.isAxeItem(player.getInventory().getItemInMainHand())) return;

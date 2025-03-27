@@ -14,6 +14,9 @@ public class OreEvents implements Listener {
   @EventHandler
   public void onOreExcavated(BlockBreakEvent event) {
     Player player = event.getPlayer();
+
+    if (player.isSneaking()) return;
+
     Block block = event.getBlock();
 
     if (!ItemUtils.isPickaxeItem(player.getInventory().getItemInMainHand())) return;
