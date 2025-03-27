@@ -60,7 +60,7 @@ public class TreeCapitatorProcessor {
               }
             });
 
-    return heightsMap.values().stream().allMatch(count -> count <= 6);
+    return heightsMap.values().stream().allMatch(count -> count <= 10);
   }
 
   private static void getNearbyLogsRecursive(Block block, List<Block> blocks, List<Block> leaves) {
