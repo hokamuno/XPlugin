@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
+import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -34,6 +35,8 @@ public class SleepingManager {
   }
 
   public void addSleepingPlayer(Player player) {
+    player.setStatistic(Statistic.TIME_SINCE_REST, 0);
+
     if (isNightSkipping) return;
 
     sleepingPLayers.add(player);
@@ -84,7 +87,7 @@ public class SleepingManager {
               tag.append(Component.text("Ночь прошла, на улице снова безопасно!")));
           isNightSkipping = false;
 
-          world.setClearWeatherDuration(0);
+          world.setClearWeatherDuration(24000);
           world.setWeatherDuration(0);
 
           cancel();
